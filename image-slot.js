@@ -654,7 +654,15 @@
       // re-seeds _view from stored before clamp/apply, so a shrink→grow
       // cycle round-trips instead of ratcheting x/y toward the narrower
       // frame's clamp range.
-      this._ro = new ResizeObserver(() => this._render());
+      this._ro = new ResizeObserver(() => {
+        // mobile: URL-bar show/hide fires bogus resizes — only re-render on real
+        // width changes, debounced, so scroll stays smooth
+        const w = this.clientWidth;
+        if (w === this._lastRoW) return;
+        this._lastRoW = w;
+        clearTimeout(this._roDebounce);
+        this._roDebounce = setTimeout(() => this._render(), 120);
+      });
       this._ro.observe(this);
       load();
       this._render();
