@@ -10,8 +10,8 @@
 <helmet>
   <title>Edi Papel de Parede</title>
 <style>
-  /* site publicado: fotos estaticas — o toque atravessa e a pagina rola */
-  image-slot { pointer-events: none !important; }
+  /* site publicado: fotos são estáticas — o toque atravessa e a página rola normalmente */
+  image-slot, image-slot * { pointer-events: none !important; touch-action: pan-y !important; }
 </style>
   <link rel="icon" type="image/png" href="favicon-edi.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
 
   <!-- ===== NAV ===== -->
   <header style="position:fixed; top:20px; left:0; right:0; z-index:50; padding:0 24px; pointer-events:none;">
-    <div style="max-width:1160px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; gap:24px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); background:rgba(20,20,20,0.45); border:1px solid rgba(240,240,240,0.1); border-radius:16px; pointer-events:auto;">
+    <div style="max-width:1160px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; gap:24px; backdrop-filter:{{ headerBlur }}; -webkit-backdrop-filter:{{ headerBlur }}; background:{{ headerBg }}; border:1px solid rgba(240,240,240,0.1); border-radius:16px; pointer-events:auto;">
       <a href="#topo" style="display:flex; align-items:center;">
         <img src="logo-edi-mark.png" alt="Edi Papel de Parede" style="height:42px; width:auto; display:block;">
       </a>
@@ -49,7 +49,7 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}"><path d="M6 6l12 12M18 6L6 18"></path></sc-if><sc-if value="{{ menuFechado }}" hint-placeholder-val="{{ true }}"><path d="M4 7h16M4 12h16M4 17h16"></path></sc-if></svg>
       </button>
     </div>
-    <div style="display:{{ menuMobileDisplay }}; flex-direction:column; gap:4px; max-width:1160px; margin:10px auto 0; padding:16px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); background:rgba(15,15,15,0.92); border:1px solid rgba(240,240,240,0.1); border-radius:16px; pointer-events:auto;">
+    <div style="display:{{ menuMobileDisplay }}; flex-direction:column; gap:4px; max-width:1160px; margin:10px auto 0; padding:16px; background:rgba(15,15,15,0.96); border:1px solid rgba(240,240,240,0.1); border-radius:16px; pointer-events:auto;">
       <a href="#instalador" onClick="{{ fecharMenu }}" style="color:#D0D0D0; font-size:15px; letter-spacing:0.08em; text-transform:uppercase; padding:14px 12px; border-radius:8px;" style-hover="background:rgba(240,240,240,0.06); color:#F0F0F0;">O Instalador</a>
       <a href="#galeria" onClick="{{ fecharMenu }}" style="color:#D0D0D0; font-size:15px; letter-spacing:0.08em; text-transform:uppercase; padding:14px 12px; border-radius:8px;" style-hover="background:rgba(240,240,240,0.06); color:#F0F0F0;">Galeria</a>
       <a href="#avaliacoes" onClick="{{ fecharMenu }}" style="color:#D0D0D0; font-size:15px; letter-spacing:0.08em; text-transform:uppercase; padding:14px 12px; border-radius:8px;" style-hover="background:rgba(240,240,240,0.06); color:#F0F0F0;">Avaliações</a>
@@ -117,11 +117,11 @@
         <div data-reveal="" style="display:flex; flex-direction:column; gap:14px;">
           <div style="position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:4px; background:#111;">
             <sc-for list="{{ ref.fotos }}" as="f" hint-placeholder-count="1">
-              <div style="position:absolute; inset:0; opacity:{{ f.op }}; pointer-events:{{ f.pe }}; transition:opacity 0.45s ease;"><image-slot id="{{ f.slotId }}" shape="rect" placeholder="{{ f.ph }}"></image-slot></div>
+              <div style="position:absolute; inset:0; opacity:{{ f.op }}; visibility:{{ f.vis }}; pointer-events:{{ f.pe }}; transition:opacity 0.45s ease, visibility 0.45s;"><image-slot id="{{ f.slotId }}" shape="rect" placeholder="{{ f.ph }}"></image-slot></div>
             </sc-for>
-            <button onClick="{{ ref.prev }}" aria-label="Foto anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.55); backdrop-filter:blur(6px); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">‹</button>
-            <button onClick="{{ ref.next }}" aria-label="Próxima foto" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.55); backdrop-filter:blur(6px); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">›</button>
-            <div style="position:absolute; bottom:12px; right:14px; z-index:5; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:0.15em; color:#F0F0F0; background:rgba(10,10,10,0.55); backdrop-filter:blur(6px); padding:4px 10px; border-radius:999px; pointer-events:none;">{{ ref.contador }}</div>
+            <button onClick="{{ ref.prev }}" aria-label="Foto anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.78); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">‹</button>
+            <button onClick="{{ ref.next }}" aria-label="Próxima foto" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.78); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">›</button>
+            <div style="position:absolute; bottom:12px; right:14px; z-index:5; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:0.15em; color:#F0F0F0; background:rgba(10,10,10,0.78); padding:4px 10px; border-radius:999px; pointer-events:none;">{{ ref.contador }}</div>
           </div>
           <div>
             <p style="margin:0 0 2px; font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500; color:#F0F0F0;">{{ ref.nome }}</p>
@@ -139,11 +139,11 @@
         <div data-reveal="" style="display:flex; flex-direction:column; gap:14px;">
           <div style="position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:4px; background:#111;">
             <sc-for list="{{ ref.fotos }}" as="f" hint-placeholder-count="1">
-              <div style="position:absolute; inset:0; opacity:{{ f.op }}; pointer-events:{{ f.pe }}; transition:opacity 0.45s ease;"><image-slot id="{{ f.slotId }}" shape="rect" placeholder="{{ f.ph }}"></image-slot></div>
+              <div style="position:absolute; inset:0; opacity:{{ f.op }}; visibility:{{ f.vis }}; pointer-events:{{ f.pe }}; transition:opacity 0.45s ease, visibility 0.45s;"><image-slot id="{{ f.slotId }}" shape="rect" placeholder="{{ f.ph }}"></image-slot></div>
             </sc-for>
-            <button onClick="{{ ref.prev }}" aria-label="Foto anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.55); backdrop-filter:blur(6px); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">‹</button>
-            <button onClick="{{ ref.next }}" aria-label="Próxima foto" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.55); backdrop-filter:blur(6px); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">›</button>
-            <div style="position:absolute; bottom:12px; right:14px; z-index:5; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:0.15em; color:#F0F0F0; background:rgba(10,10,10,0.55); backdrop-filter:blur(6px); padding:4px 10px; border-radius:999px; pointer-events:none;">{{ ref.contador }}</div>
+            <button onClick="{{ ref.prev }}" aria-label="Foto anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.78); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">‹</button>
+            <button onClick="{{ ref.next }}" aria-label="Próxima foto" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:5; width:40px; height:40px; border-radius:999px; border:1px solid rgba(240,240,240,0.25); background:rgba(10,10,10,0.78); color:#F0F0F0; font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease;" style-hover="background:#C9A87C; color:#0A0A0A; border-color:#C9A87C;">›</button>
+            <div style="position:absolute; bottom:12px; right:14px; z-index:5; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:0.15em; color:#F0F0F0; background:rgba(10,10,10,0.78); padding:4px 10px; border-radius:999px; pointer-events:none;">{{ ref.contador }}</div>
           </div>
           <div>
             <p style="margin:0 0 2px; font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500; color:#F0F0F0;">{{ ref.nome }}</p>
@@ -318,6 +318,7 @@ class Component extends DCLogic {
           slotId: r.base + "-" + (k + 1),
           ph: r.nome + " — foto " + (k + 1),
           op: idx === k ? 1 : 0,
+          vis: idx === k ? "visible" : "hidden",
           pe: idx === k ? "auto" : "none"
         });
       }
@@ -333,6 +334,8 @@ class Component extends DCLogic {
   renderVals() {
     const g = this._galerias();
     return {
+      headerBlur: this.state.isMobile ? "none" : "blur(16px)",
+      headerBg: this.state.isMobile ? "rgba(15,15,15,0.94)" : "rgba(20,20,20,0.45)",
       navDisplay: this.state.isMobile ? "none" : "flex",
       burgerDisplay: this.state.isMobile ? "flex" : "none",
       menuMobileDisplay: (this.state.isMobile && this.state.menuAberto) ? "flex" : "none",
