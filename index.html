@@ -1,14 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ===== SEO (etiquetas invisíveis — só o Google/robôs leem) ===== -->
+<!-- (o <title> fica no <helmet> abaixo, que o support.js aplica — evita título duplicado) -->
+<meta name="description" content="Instalação profissional de papel de parede em Florianópolis desde 2013. Mais de 20 mil ambientes transformados com acabamento impecável. Peça seu orçamento sem compromisso.">
+<link rel="canonical" href="https://edipapeldeparede.com.br/">
+<meta name="robots" content="index, follow">
+<meta name="geo.region" content="BR-SC">
+<meta name="geo.placename" content="Florianópolis">
+<!-- Open Graph — preview ao compartilhar no WhatsApp/Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Edi Papel de Parede">
+<meta property="og:title" content="Instalação de Papel de Parede em Florianópolis | Edi Papel de Parede">
+<meta property="og:description" content="Instalação profissional de papel de parede em Florianópolis desde 2013. Mais de 20 mil ambientes com acabamento impecável.">
+<meta property="og:url" content="https://edipapeldeparede.com.br/">
+<meta property="og:image" content="https://edipapeldeparede.com.br/logo-edi.png">
+<!-- Dados estruturados — "cartão de visita" que o Google entende -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Edi Papel de Parede",
+  "image": "https://edipapeldeparede.com.br/logo-edi.png",
+  "description": "Instalação profissional de papel de parede em Florianópolis e Grande Florianópolis desde 2013.",
+  "url": "https://edipapeldeparede.com.br/",
+  "telephone": "+5548999010900",
+  "areaServed": "Grande Florianópolis, SC",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Florianópolis",
+    "addressRegion": "SC",
+    "addressCountry": "BR"
+  },
+  "priceRange": "$$"
+}
+</script>
+<!-- ===== fim SEO ===== -->
+
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-  <title>Edi Papel de Parede</title>
+  <title>Instalação de Papel de Parede em Florianópolis | Edi Papel de Parede</title>
 <style>
   /* site publicado: fotos são estáticas — o toque atravessa e a página rola normalmente */
   image-slot, image-slot * { pointer-events: none !important; touch-action: pan-y !important; }
