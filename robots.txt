@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://edipapeldeparede.com.br/sitemap.xml
