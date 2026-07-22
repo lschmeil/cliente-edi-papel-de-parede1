@@ -1,7 +1,35 @@
+# netlify.toml — Edi Papel de Parede
+# Configuração de deploy + cabeçalhos de segurança.
+
 [build]
   publish = "."
 
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
+    # --- Ganhos diretos, sem risco de quebrar o site ---
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+    # --- Content-Security-Policy ---
+    # 'unsafe-eval' e 'unsafe-inline' são OBRIGATÓRIOS aqui: o site transpila
+    # JSX no navegador (Babel standalone + new Function) e usa estilos inline.
+    # Com isso a CSP protege pouco contra XSS — o valor dela aqui é travar de
+    # quais ORIGENS externas o site pode carregar scripts/estilos/fontes.
+    # React/ReactDOM/Babel vêm do unpkg (já com SRI aplicado no support.js).
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https:;
+      media-src 'self';
+      connect-src 'self' https://unpkg.com;
+      frame-src 'none';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    """
